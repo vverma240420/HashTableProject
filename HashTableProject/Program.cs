@@ -5,10 +5,30 @@
         static void Main(string[] args)
         {
             Console.WriteLine("...Hash Table...");
+            bool flag = true;
+            while (flag)
+            {
+                Console.WriteLine("Please Choose \n1.Sentence Frequency \n2.Paragraph Frequency \n22.Exit");
+                int choice = Convert.ToInt32(Console.ReadLine());
+                switch (choice)
+                {
+                    case 1:
+                        string paragraph = "To be or not to be";
+                        CountNumbOfOccurence(paragraph);
+                        break;
+                    case 2:
+                        string paragraph2 = "Paranoids are not paranoid because they are paranoid but because they keep putting themselves deliberately into paranoid avoidable situations";
+                        CountNumbOfOccurence(paragraph2);
+                        break;
+                    case 22:
+                        flag = false;
+                        break;
+                    default:
+                        Console.WriteLine("Choose the correct number ! ");
+                        break;
+                }
 
-            string paragraph = "To be or not to be";
-            CountNumbOfOccurence(paragraph);
-            Console.ReadLine();
+            }
         }
         public static void CountNumbOfOccurence(string paragraph)
         {
