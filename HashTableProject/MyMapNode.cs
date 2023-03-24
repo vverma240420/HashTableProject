@@ -13,10 +13,9 @@ namespace HashTableProject
             public k Key { get; set; }
             public v Value { get; set; }
         }
-
         private readonly int size;
         //int[] arr;
-        private readonly LinkedList<KeyValue<K,V>>[] items;
+        private readonly LinkedList<KeyValue<K, V>>[] items;
 
         public MyMapNode(int size)
         {
@@ -30,7 +29,22 @@ namespace HashTableProject
             int position = hash % size; // 0 to 4
             return Math.Abs(position);
         }
-
+        protected LinkedList<KeyValue<K, V>> GetLinkedList(int position)
+        {
+            LinkedList<KeyValue<K, V>> linkedlist = items[position];
+            if (linkedlist == null)
+            {
+                linkedlist = new LinkedList<KeyValue<K, V>>();
+                items[position] = linkedlist;
+            }
+            return linkedlist;
+        }
+        public LinkedList<KeyValue<K, V>> GetArrayPositionAndLinkedList(K key)
+        {
+            int position = GetArrayPosition(key); //index number of array
+            LinkedList<KeyValue<K, V>> linkedList = GetLinkedList(position);
+            return linkedList;
+        }
         public V Get(K key)
         {
             var linkedList = GetArrayPositionAndLinkedList(key);
@@ -42,7 +56,6 @@ namespace HashTableProject
 
             return default(V);
         }
-
         public void Add(K key, V value)
         {
             var linkedList = GetArrayPositionAndLinkedList(key);
@@ -60,30 +73,9 @@ namespace HashTableProject
                 }
             }
             linkedList.AddLast(item); // to,2
-            // Console.WriteLine(item.Key + " " + item.Value);
+                                      // Console.WriteLine(item.Key + " " + item.Value);
+
         }
-
-        public bool Exists(K key)
-        {
-            var linkedList = GetArrayPositionAndLinkedList(key);
-            foreach (KeyValue<K, V> item in linkedList)
-            {
-                if (item.Key.Equals(key))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public LinkedList<KeyValue<K, V>> GetArrayPositionAndLinkedList(K key)
-        {
-            int position = GetArrayPosition(key); //index number of array
-            LinkedList<KeyValue<K, V>> linkedList = GetLinkedList(position);
-            return linkedList;
-        }
-
-
         public void Remove(K key)
         {
             var linkedList = GetArrayPositionAndLinkedList(key);
@@ -104,18 +96,18 @@ namespace HashTableProject
                 //Console.WriteLine("Removed successfully with key " + foundItem.Key);
             }
         }
-
-        protected LinkedList<KeyValue<K, V>> GetLinkedList(int position)
+        public bool Exists(K key)
         {
-            LinkedList<KeyValue<K, V>> linkedList = items[position]; //0
-            if (linkedList == null)
+            var linkedList = GetArrayPositionAndLinkedList(key);
+            foreach (KeyValue<K, V> item in linkedList)
             {
-                linkedList = new LinkedList<KeyValue<K, V>>();
-                items[position] = linkedList;
+                if (item.Key.Equals(key))
+                {
+                    return true;
+                }
             }
-            return linkedList;
+            return false;
         }
-
         public void Display()
         {
             foreach (var linkedList in items)
